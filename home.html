@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Dashboard</title>
-
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -13,11 +11,25 @@
 
 <div class="dashboard">
 
-    <!-- Sidebar -->
     <aside class="sidebar">
 
         <div class="logo">
             Spark Admin
+        </div>
+
+        <div class="profile-section">
+
+            <img
+                id="userProfilePic"
+                src=""
+                alt="Profile Picture"
+                class="profile-pic"
+            >
+
+            <div class="profile-info">
+                <p id="userEmail">user@email.com</p>
+            </div>
+
         </div>
 
         <nav>
@@ -28,35 +40,21 @@
 
     </aside>
 
-
-    <!-- Main Content -->
     <main class="main-content">
 
-        <!-- Top Header -->
         <header class="topbar">
-
             <h2>Dashboard</h2>
 
             <a href="login.html" class="logout-btn">
                 Login
             </a>
-
         </header>
 
-
-        <!-- Welcome Section -->
         <section class="welcome">
-
             <h1>Welcome to your Dashboard</h1>
-
-            <p>
-                Manage your account and application from here.
-            </p>
-
+            <p>Manage your account and application from here.</p>
         </section>
 
-
-        <!-- Dashboard Cards -->
         <section class="cards">
 
             <div class="card">
@@ -65,20 +63,17 @@
                 <span>Registered Users</span>
             </div>
 
-
             <div class="card">
                 <h3>Files</h3>
                 <p class="number">845</p>
                 <span>Uploaded Files</span>
             </div>
 
-
             <div class="card">
                 <h3>Messages</h3>
                 <p class="number">320</p>
                 <span>New Messages</span>
             </div>
-
 
             <div class="card">
                 <h3>Activity</h3>
@@ -88,18 +83,14 @@
 
         </section>
 
-
-        <!-- Recent Activity -->
         <section class="activity">
 
             <h2>Recent Activity</h2>
 
             <div class="activity-box">
-
                 <p>New user registered</p>
                 <p>New file uploaded</p>
                 <p>Profile updated</p>
-
             </div>
 
         </section>
@@ -108,8 +99,32 @@
 
 </div>
 
-
 <script src="js/script.js"></script>
+
+<script>
+    fetch("http://127.0.0.1:8000/auth/user", {
+        credentials: "include"
+    })
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+
+        console.log("Google User:", data);
+
+        if (data.logged_in === true) {
+
+            document.getElementById("userEmail").textContent = data.email;
+
+            if (data.picture) {
+                document.getElementById("userProfilePic").src = data.picture;
+            }
+        }
+    })
+    .catch(function(error) {
+        console.error("User loading error:", error);
+    });
+</script>
 
 </body>
 </html>
